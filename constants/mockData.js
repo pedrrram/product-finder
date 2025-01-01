@@ -22,5 +22,16 @@ export const categories = {
 };
 
 export const attributes = {
-  common: ["Brand", "Price", "Rating", "Availability", "Discount"],
+  common: [
+    "Brand",
+    "Price Range",
+    "Rating",
+    "Availability",
+    "Discount",
+    "Color",
+    "Material",
+    "Warranty",
+    "Shipping Time",
+    "Return Policy",
+  ],
 };

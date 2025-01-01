@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#059669" />
       </head>
       <body
-        className={`${montserrat.className} bg-zinc-950 text-zinc-50 flex flex-col items-center justify-center h-screen p-5`}
+        className={`${montserrat.className} bg-zinc-950 text-zinc-50 flex flex-col items-center justify-center min-h-screen h-full p-5`}
       >
         {children}
       </body>

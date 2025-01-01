@@ -14,18 +14,18 @@ const ResultDialog = ({
 }) => {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <DialogContent className="max-w-xs sm:max-w-3xl bg-zinc-900 text-gray-100 border border-zinc-800 rounded-xl">
+      <DialogContent className="max-w-xs sm:max-w-3xl bg-zinc-900 text-gray-100 border border-zinc-800 rounded-xl" aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle className="text-zinc-500">Matching Products</DialogTitle>
         </DialogHeader>
         <div className="bg-zinc-800 p-4 border rounded-xl border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
+          <div className="">
             <h3 className="font-semibold text-sm text-zinc-500 mb-2">
               Selected Categories:
             </h3>
             <p className="text-zinc-300 text-sm">{breadcrumbs}</p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 flex-1 justify-center">
             {selectedAttributes.map((attr) => (
               <Badge key={attr} className="bg-emerald-900 text-xs">
                 {attr}

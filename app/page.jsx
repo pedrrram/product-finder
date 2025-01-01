@@ -1,5 +1,4 @@
 "use client";
-
 import { useRef, useState } from "react";
 import Badge from "@/components/Badge";
 import Form from "@/components/Form";
@@ -11,7 +10,7 @@ const ProductFinder = () => {
     second: "",
     third: "",
   });
-  const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [attributeSelections, setAttributeSelections] = useState([]);
   const mainCatRef = useRef(null);
 
   const handleCategoryChange = (level, value) => {
@@ -26,27 +25,23 @@ const ProductFinder = () => {
       newCategories.third = "";
     } else {
       newCategories.third = value;
-      // Scroll to the main category
       if (mainCatRef.current) {
         mainCatRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
     setSelectedCategories(newCategories);
-    if (level === "main") setSelectedAttributes([]);
+    if (level === "main") setAttributeSelections([]);
   };
 
-  const handleAttributeSelect = (attribute) => {
-    if (
-      selectedAttributes.length < 3 &&
-      !selectedAttributes.includes(attribute)
-    ) {
-      setSelectedAttributes([...selectedAttributes, attribute]);
-    }
+  const handleAttributeSelect = (index, value) => {
+    const newSelections = [...attributeSelections];
+    newSelections[index] = value;
+    setAttributeSelections(newSelections);
   };
 
   const handleClearForm = () => {
     setSelectedCategories({ main: "", second: "", third: "" });
-    setSelectedAttributes([]);
+    setAttributeSelections([]);
   };
 
   const lastCategory =
@@ -55,9 +50,9 @@ const ProductFinder = () => {
     selectedCategories.main;
 
   return (
-    <main className="flex flex-col items-center sm:items-start justify-center">
-      <div className="flex flex-col sm:flex-row items-center justify-between max-w-screen-lg gap-5">
-        <div className="h-80 w-80 sm:w-[400px] sm:h-[400px] bg-zinc-900 rounded-3xl flex flex-col items-center justify-center">
+    <main className="flex flex-col items-center justify-center py-5">
+      <div className="flex flex-col sm:flex-row items-center sm:justify-between max-w-screen-lg gap-5">
+        <div className="h-80 w-80 sm:w-[400px] sm:h-[400px] bg-zinc-900 rounded-3xl flex flex-col items-center justify-center self-start">
           <span className="text-6xl font-thin text-emerald-600 mb-5">
             Qpket
           </span>
@@ -74,7 +69,7 @@ const ProductFinder = () => {
           </p>
           <Form
             selectedCategories={selectedCategories}
-            selectedAttributes={selectedAttributes}
+            attributeSelections={attributeSelections}
             onClear={handleClearForm}
             onCategoryChange={handleCategoryChange}
             onAttributeSelect={handleAttributeSelect}
@@ -82,9 +77,9 @@ const ProductFinder = () => {
           />
         </div>
       </div>
-      <div className="flex gap-4 mt-5">
-        {selectedAttributes.map((att) => (
-          <Badge key={att}>{att}</Badge>
+      <div className="flex flex-wrap justify-center sm:justify-start max-w-sm sm:max-w-full gap-4 mt-5">
+        {attributeSelections.map((att, index) => (
+          <Badge key={index}>{att}</Badge>
         ))}
       </div>
     </main>

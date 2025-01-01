@@ -11,14 +11,55 @@ import ResultDialog from "./ResultDialog";
 import { getBreadcrumbs } from "@/lib/utils";
 
 const Form = ({
-  selectedAttributes,
+  attributeSelections,
   selectedCategories,
   onClear,
   onCategoryChange,
   onAttributeSelect,
-  mainCatRef
+  mainCatRef,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const getAvailableAttributes = (currentIndex) => {
+    const selectedAttrs = new Set(attributeSelections);
+    return attributes.common.filter(
+      (attr) =>
+        !selectedAttrs.has(attr) || attributeSelections[currentIndex] === attr
+    );
+  };
+
+  // Calculate the number of attribute selectors to show - minimum 4 attribute selectors
+  const totalSelectors = Math.max(4, attributeSelections.length + 1);
+  // generate attribute selectors
+  const attributeSelectors = Array.from(
+    { length: totalSelectors },
+    (_, index) => {
+      const isDisabled =
+        !selectedCategories.third ||
+        (index > 0 && !attributeSelections[index - 1]);
+
+      if (attributes.common.length <= index) return null;
+      return (
+        <Select
+          key={index}
+          disabled={isDisabled}
+          value={attributeSelections[index] || ""}
+          onValueChange={(val) => onAttributeSelect(index, val)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={`Attribute ${index + 1}`} />
+          </SelectTrigger>
+          <SelectContent>
+            {getAvailableAttributes(index).map((attr) => (
+              <SelectItem key={attr} value={attr}>
+                {attr}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      );
+    }
+  );
 
   return (
     <>
@@ -27,7 +68,7 @@ const Form = ({
           value={selectedCategories.main}
           onValueChange={(val) => onCategoryChange("main", val)}
         >
-          <SelectTrigger className="">
+          <SelectTrigger>
             <SelectValue placeholder="Main Category" />
           </SelectTrigger>
           <SelectContent avoidCollisions>
@@ -43,7 +84,7 @@ const Form = ({
           value={selectedCategories.second}
           onValueChange={(val) => onCategoryChange("second", val)}
         >
-          <SelectTrigger className="">
+          <SelectTrigger>
             <SelectValue placeholder="Second Category" />
           </SelectTrigger>
           <SelectContent>
@@ -59,8 +100,8 @@ const Form = ({
           value={selectedCategories.third}
           onValueChange={(val) => onCategoryChange("third", val)}
         >
-          <SelectTrigger className="">
-            <SelectValue placeholder="Third" />
+          <SelectTrigger>
+            <SelectValue placeholder="Third Category" />
           </SelectTrigger>
           <SelectContent>
             {categories[selectedCategories.second]?.map((cat) => (
@@ -70,35 +111,20 @@ const Form = ({
             ))}
           </SelectContent>
         </Select>
-        <Select
-          disabled={!selectedCategories.third}
-          onValueChange={onAttributeSelect}
-          value=""
-        >
-          <SelectTrigger className="">
-            <SelectValue placeholder="Attributes" />
-          </SelectTrigger>
-          <SelectContent>
-            {attributes.common.map((attr) => (
-              <SelectItem key={attr} value={attr}>
-                {attr}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        {attributeSelectors}
       </div>
       <div className="flex items-center">
         <button
           onClick={() => {
-            selectedAttributes.length > 0 && setIsModalOpen(true);
+            attributeSelections.length > 3 && setIsModalOpen(true);
           }}
           className="flex-1 bg-emerald-700 hover:bg-emerald-700 text-zinc-900 px-4 py-2.5 rounded-xl outline-none font-medium"
         >
-          Find Prodcut
+          Find Product
         </button>
         <button
           onClick={onClear}
-          className="bg-zinc-950  text-rose-800 border border-rose-800 hover:border-rose-900 hover:text-rose-900 px-4 py-2.5 rounded-xl outline-none font-medium ml-3"
+          className="bg-zinc-950 text-rose-800 border border-rose-800 hover:border-rose-900 hover:text-rose-900 px-4 py-2.5 rounded-xl outline-none font-medium ml-3"
         >
           Clear
         </button>
@@ -106,7 +132,7 @@ const Form = ({
       <ResultDialog
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        selectedAttributes={selectedAttributes}
+        selectedAttributes={attributeSelections}
         breadcrumbs={getBreadcrumbs(selectedCategories)}
       />
     </>
