@@ -22,11 +22,15 @@ const ProductFinder = () => {
       newCategories.third = "";
     } else if (level === "second") {
       newCategories.second = value;
-      newCategories.third = "";
+      newCategories.third = ""; 
     } else {
       newCategories.third = value;
+      // scroll to main category
+      console.log(mainCatRef.current)
+
       if (mainCatRef.current) {
         mainCatRef.current.scrollIntoView({ behavior: "smooth" });
+        console.log(mainCatRef.current)
       }
     }
     setSelectedCategories(newCategories);

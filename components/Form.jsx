@@ -9,6 +9,7 @@ import { attributes, categories } from "@/constants/mockData";
 import { useState } from "react";
 import ResultDialog from "./ResultDialog";
 import { getBreadcrumbs } from "@/lib/utils";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 const Form = ({
   attributeSelections,
@@ -63,56 +64,60 @@ const Form = ({
 
   return (
     <>
-      <div className="w-full space-y-3 mb-5" ref={mainCatRef}>
-        <Select
-          value={selectedCategories.main}
-          onValueChange={(val) => onCategoryChange("main", val)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Main Category" />
-          </SelectTrigger>
-          <SelectContent avoidCollisions>
-            {categories.main.map((cat) => (
-              <SelectItem key={cat} value={cat}>
-                {cat}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select
-          disabled={!selectedCategories.main}
-          value={selectedCategories.second}
-          onValueChange={(val) => onCategoryChange("second", val)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Second Category" />
-          </SelectTrigger>
-          <SelectContent>
-            {categories[selectedCategories.main]?.map((cat) => (
-              <SelectItem key={cat} value={cat}>
-                {cat}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select
-          disabled={!selectedCategories.second}
-          value={selectedCategories.third}
-          onValueChange={(val) => onCategoryChange("third", val)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Third Category" />
-          </SelectTrigger>
-          <SelectContent>
-            {categories[selectedCategories.second]?.map((cat) => (
-              <SelectItem key={cat} value={cat}>
-                {cat}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {attributeSelectors}
-      </div>
+      <ScrollArea className="h-72 relative overflow-y p-5">
+        <div className="w-full space-y-3 mb-5">
+          <Select
+            value={selectedCategories.main}
+            onValueChange={(val) => onCategoryChange("main", val)}
+          >
+            <SelectTrigger>
+              <SelectValue ref={mainCatRef} placeholder="Main Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.main.map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {cat}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            disabled={!selectedCategories.main}
+            value={selectedCategories.second}
+            onValueChange={(val) => onCategoryChange("second", val)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Second Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories[selectedCategories.main]?.map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {cat}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            disabled={!selectedCategories.second}
+            value={selectedCategories.third}
+            onValueChange={(val) => onCategoryChange("third", val)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Third Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories[selectedCategories.second]?.map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {cat}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {attributeSelectors}
+        </div>
+
+        <ScrollBar />
+      </ScrollArea>
       <div className="flex items-center">
         <button
           onClick={() => {
