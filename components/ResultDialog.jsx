@@ -1,17 +1,18 @@
+import { useAppSelector } from "@/store/hooks";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
-import Badge from "./Badge";
+import Badge from "./shared/Badge";
+import BreadCrumbs from "./shared/BreadCrumbs";
 
 const ResultDialog = ({
   isModalOpen,
   setIsModalOpen,
-  selectedAttributes,
-  breadcrumbs,
 }) => {
+  const { selected: attributes } = useAppSelector(state => state.attributes);
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogContent className="max-w-xs sm:max-w-3xl bg-zinc-900 text-gray-100 border border-zinc-800 rounded-xl" aria-describedby={undefined}>
@@ -23,10 +24,10 @@ const ResultDialog = ({
             <h3 className="font-semibold text-sm text-zinc-500 mb-2">
               Selected Categories:
             </h3>
-            <p className="text-zinc-300 text-sm">{breadcrumbs}</p>
+            <BreadCrumbs />
           </div>
           <div className="flex flex-wrap gap-2 flex-1 justify-center">
-            {selectedAttributes.map((attr) => (
+            {attributes.map((attr) => (
               <Badge key={attr} className="bg-emerald-900 text-xs">
                 {attr}
               </Badge>
