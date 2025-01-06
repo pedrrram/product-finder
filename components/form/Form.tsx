@@ -6,7 +6,7 @@ import ResultDialog from "../ResultDialog";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 const Form = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const mainCatRef = useRef(null);
 
   return (

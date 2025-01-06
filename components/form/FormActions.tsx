@@ -2,7 +2,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { clearAttributes } from "@/store/slices/attributes.slice";
 import { selectCategory } from "@/store/slices/categories.slice";
 
-const FormActions = ({ setIsModalOpen }) => {
+interface IProps {
+  setIsModalOpen: (value: boolean) => void
+}
+
+const FormActions = ({ setIsModalOpen }: IProps) => {
   const attributes = useAppSelector((state) => state.attributes);
   const dispatch = useAppDispatch();
 

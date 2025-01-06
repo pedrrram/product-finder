@@ -1,21 +1,21 @@
 import { useAppSelector } from "@/store/hooks";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "../components/ui/dialog";
 import Badge from "./shared/Badge";
 import BreadCrumbs from "./shared/BreadCrumbs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 
-const ResultDialog = ({
-  isModalOpen,
-  setIsModalOpen,
-}) => {
-  const { selected: attributes } = useAppSelector(state => state.attributes);
+interface IProps {
+  isModalOpen: boolean;
+  setIsModalOpen: (state: boolean) => void;
+}
+
+const ResultDialog = ({ isModalOpen, setIsModalOpen }: IProps) => {
+  const { selected: attributes } = useAppSelector((state) => state.attributes);
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <DialogContent className="max-w-xs sm:max-w-3xl bg-zinc-900 text-gray-100 border border-zinc-800 rounded-xl" aria-describedby={undefined}>
+      <DialogContent
+        className="max-w-xs sm:max-w-3xl bg-zinc-900 text-gray-100 border border-zinc-800 rounded-xl"
+        aria-describedby={undefined}
+      >
         <DialogHeader>
           <DialogTitle className="text-zinc-500">Matching Products</DialogTitle>
         </DialogHeader>

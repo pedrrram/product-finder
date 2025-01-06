@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CategoriesState {
-  main: string;
-  second: string;
-  third: string;
+  main?: string;
+  second?: string;
+  third?: string;
 }
 
 const initialState: CategoriesState = {

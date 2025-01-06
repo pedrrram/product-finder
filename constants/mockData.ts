@@ -1,4 +1,6 @@
-export const categories = {
+import { IAttributes, ICategories } from "@/types";
+
+export const CATEGORIES: ICategories = {
   // Main categories
   main: ["Electronics", "Fashion", "Home & Living"],
 
@@ -21,7 +23,7 @@ export const categories = {
   Kitchen: ["Cookware", "Appliances", "Utensils"],
 };
 
-export const attributes = {
+export const ATTRIBUTES: IAttributes = {
   common: [
     "Brand",
     "Price Range",

@@ -1,4 +1,4 @@
-import { attributes as AttributesDATA } from "@/constants/mockData";
+import { ATTRIBUTES } from "@/constants/mockData";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAttribute } from "@/store/slices/attributes.slice";
 import {
@@ -8,8 +8,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { MutableRefObject, RefObject } from "react";
 
-const AttributesSelectors = ({ mainCatRef }) => {
+interface IProps {
+  mainCatRef: MutableRefObject<HTMLSpanElement> | RefObject<null>;
+}
+
+const AttributesSelectors = ({ mainCatRef }: IProps) => {
   const { selected: selectedAttributes } = useAppSelector(
     (state) => state.attributes
   );
@@ -19,18 +24,18 @@ const AttributesSelectors = ({ mainCatRef }) => {
   // Calculate the number of attribute selectors to show - minimum 4 attribute selectors
   const totalSelectors = Math.max(4, selectedAttributes.length + 1);
 
-  const getAvailableAttributes = (currentIndex) => {
+  const getAvailableAttributes = (currentIndex: number) => {
     const selectedAttrs = new Set(selectedAttributes);
-    return AttributesDATA.common.filter(
+    return ATTRIBUTES.common.filter(
       (attr) =>
         !selectedAttrs.has(attr) || selectedAttributes[currentIndex] === attr
     );
   };
 
-  const handleSelectCategory = (index, value) => {
+  const handleSelectCategory = (index: number, value: string) => {
     dispatch(selectAttribute({ index, value }));
-    if (mainCatRef.current) {
-      mainCatRef.current.scrollIntoView({ behavior: "smooth" });
+    if (mainCatRef?.current) {
+      mainCatRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -39,7 +44,7 @@ const AttributesSelectors = ({ mainCatRef }) => {
       !selectedCategories.third ||
       (index > 0 && !selectedAttributes[index - 1]);
 
-    if (AttributesDATA.common.length <= index) return null;
+    if (ATTRIBUTES.common.length <= index) return null;
     return (
       <Select
         key={index}

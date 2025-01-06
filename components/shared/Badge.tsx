@@ -1,6 +1,11 @@
 import { cn } from "@/lib/utils";
 
-const Badge = ({ className, children, ...props }) => {
+interface IProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+const Badge = ({ className, children, ...props }: IProps) => {
   return (
     <span
       className={cn(

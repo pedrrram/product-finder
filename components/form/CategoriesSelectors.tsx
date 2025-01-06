@@ -1,14 +1,25 @@
+import { CATEGORIES } from "@/constants/mockData";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { categories as CategoriesDATA } from "@/constants/mockData";
-import { selectCategory } from "@/store/slices/categories.slice";
 import { clearAttributes } from "@/store/slices/attributes.slice";
+import { selectCategory } from "@/store/slices/categories.slice";
+import { MutableRefObject, RefObject } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
-const CategoriesSelectors = ({mainCatRef}) => {
+interface IProps {
+  mainCatRef: MutableRefObject<HTMLSpanElement> | RefObject<null>;
+}
+
+const CategoriesSelectors = ({ mainCatRef }: IProps) => {
   const selectedCategories = useAppSelector((state) => state.categories);
   const dispatch = useAppDispatch();
 
-  const handleCategoryChange = (level, value) => {
+  const handleCategoryChange = (level: string, value: string) => {
     if (level === "main") {
       dispatch(
         selectCategory({
@@ -31,7 +42,7 @@ const CategoriesSelectors = ({mainCatRef}) => {
         })
       );
       // scroll to main category
-      if (mainCatRef.current) {
+      if (mainCatRef?.current) {
         mainCatRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
@@ -47,7 +58,7 @@ const CategoriesSelectors = ({mainCatRef}) => {
           <SelectValue ref={mainCatRef} placeholder="Main Category" />
         </SelectTrigger>
         <SelectContent>
-          {CategoriesDATA.main.map((cat) => (
+          {CATEGORIES.main.map((cat) => (
             <SelectItem key={cat} value={cat}>
               {cat}
             </SelectItem>
@@ -63,7 +74,7 @@ const CategoriesSelectors = ({mainCatRef}) => {
           <SelectValue placeholder="Second Category" />
         </SelectTrigger>
         <SelectContent>
-          {CategoriesDATA[selectedCategories.main]?.map((cat) => (
+          {CATEGORIES[selectedCategories?.main!]?.map((cat: string) => (
             <SelectItem key={cat} value={cat}>
               {cat}
             </SelectItem>
@@ -79,7 +90,7 @@ const CategoriesSelectors = ({mainCatRef}) => {
           <SelectValue placeholder="Third Category" />
         </SelectTrigger>
         <SelectContent>
-          {CategoriesDATA[selectedCategories.second]?.map((cat) => (
+          {CATEGORIES[selectedCategories.second!]?.map((cat: string) => (
             <SelectItem key={cat} value={cat}>
               {cat}
             </SelectItem>

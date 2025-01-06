@@ -10,7 +10,11 @@ export const metadata = {
   description: "Find the best products for your needs",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
