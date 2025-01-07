@@ -3,7 +3,7 @@ import { clearAttributes } from "@/store/slices/attributes.slice";
 import { selectCategory } from "@/store/slices/categories.slice";
 
 interface IProps {
-  setIsModalOpen: (value: boolean) => void
+  setIsModalOpen: (value: boolean) => void;
 }
 
 const FormActions = ({ setIsModalOpen }: IProps) => {

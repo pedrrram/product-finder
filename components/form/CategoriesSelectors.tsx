@@ -12,10 +12,10 @@ import {
 } from "../ui/select";
 
 interface IProps {
-  mainCatRef: MutableRefObject<HTMLSpanElement> | RefObject<null>;
+  lastChildRef: MutableRefObject<HTMLSpanElement> | RefObject<null>;
 }
 
-const CategoriesSelectors = ({ mainCatRef }: IProps) => {
+const CategoriesSelectors = ({ lastChildRef }: IProps) => {
   const selectedCategories = useAppSelector((state) => state.categories);
   const dispatch = useAppDispatch();
 
@@ -42,11 +42,17 @@ const CategoriesSelectors = ({ mainCatRef }: IProps) => {
         })
       );
       // scroll to main category
-      if (mainCatRef?.current) {
-        mainCatRef.current.scrollIntoView({ behavior: "smooth" });
+      if (lastChildRef.current) {
+        setTimeout(() => {
+          lastChildRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "end",
+          });
+        }, 10);
       }
     }
-    if (level === "main") dispatch(clearAttributes());
+    dispatch(clearAttributes())
   };
   return (
     <>
@@ -55,7 +61,7 @@ const CategoriesSelectors = ({ mainCatRef }: IProps) => {
         onValueChange={(val) => handleCategoryChange("main", val)}
       >
         <SelectTrigger>
-          <SelectValue ref={mainCatRef} placeholder="Main Category" />
+          <SelectValue placeholder="Main Category" />
         </SelectTrigger>
         <SelectContent>
           {CATEGORIES.main.map((cat) => (

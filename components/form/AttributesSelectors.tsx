@@ -1,6 +1,7 @@
 import { ATTRIBUTES } from "@/constants/mockData";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAttribute } from "@/store/slices/attributes.slice";
+import { MutableRefObject, RefObject } from "react";
 import {
   Select,
   SelectContent,
@@ -8,13 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { MutableRefObject, RefObject } from "react";
 
 interface IProps {
-  mainCatRef: MutableRefObject<HTMLSpanElement> | RefObject<null>;
+  lastChildRef: MutableRefObject<HTMLSpanElement> | RefObject<null>;
 }
 
-const AttributesSelectors = ({ mainCatRef }: IProps) => {
+const AttributesSelectors = ({ lastChildRef }: IProps) => {
   const { selected: selectedAttributes } = useAppSelector(
     (state) => state.attributes
   );
@@ -22,7 +22,7 @@ const AttributesSelectors = ({ mainCatRef }: IProps) => {
   const dispatch = useAppDispatch();
 
   // Calculate the number of attribute selectors to show - minimum 4 attribute selectors
-  const totalSelectors = Math.max(4, selectedAttributes.length + 1);
+  const totalSelectors = Math.max(1, selectedAttributes.length + 1);
 
   const getAvailableAttributes = (currentIndex: number) => {
     const selectedAttrs = new Set(selectedAttributes);
@@ -32,10 +32,17 @@ const AttributesSelectors = ({ mainCatRef }: IProps) => {
     );
   };
 
-  const handleSelectCategory = (index: number, value: string) => {
+  const handleSelectAttribute = (index: number, value: string) => {
     dispatch(selectAttribute({ index, value }));
-    if (mainCatRef?.current) {
-      mainCatRef.current?.scrollIntoView({ behavior: "smooth" });
+    // scroll to last selector
+    if (lastChildRef.current) {
+      setTimeout(() => {
+        lastChildRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "end",
+        });
+      }, 10);
     }
   };
 
@@ -44,13 +51,14 @@ const AttributesSelectors = ({ mainCatRef }: IProps) => {
       !selectedCategories.third ||
       (index > 0 && !selectedAttributes[index - 1]);
 
-    if (ATTRIBUTES.common.length <= index) return null;
+    if (ATTRIBUTES.common.length <= index || !selectedCategories.third)
+      return null;
     return (
       <Select
         key={index}
         disabled={isDisabled}
         value={selectedAttributes[index] || ""}
-        onValueChange={(value) => handleSelectCategory(index, value)}
+        onValueChange={(value) => handleSelectAttribute(index, value)}
       >
         <SelectTrigger>
           <SelectValue placeholder={`Attribute ${index + 1}`} />

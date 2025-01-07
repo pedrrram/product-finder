@@ -7,14 +7,15 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 const Form = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const mainCatRef = useRef(null);
+  const lastChildRef = useRef(null);
 
   return (
     <>
-      <ScrollArea className="h-72 relative overflow-y p-5">
-        <div className="w-full space-y-3 mb-5">
-          <CategoriesSelectors mainCatRef={mainCatRef} />
-          <AttributesSelectors mainCatRef={mainCatRef} />
+      <ScrollArea className="h-48 relative overflow-y p-4">
+        <div className="w-full space-y-3 mb-5 min-h-full">
+          <CategoriesSelectors lastChildRef={lastChildRef} />
+          <AttributesSelectors lastChildRef={lastChildRef} />
+          <div className="h-[15px]" ref={lastChildRef}></div>
         </div>
         <ScrollBar />
       </ScrollArea>
