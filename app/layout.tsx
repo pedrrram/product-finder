@@ -20,9 +20,7 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#059669" />
       </head>
-      <body
-        className={`${montserrat.className} bg-zinc-950 text-zinc-50 flex flex-col items-center justify-center min-h-screen h-full p-5`}
-      >
+      <body className={`${montserrat.className} bg-zinc-950 text-zinc-50 flex items-center justify-center min-h-screen`}>
         {children}
       </body>
     </html>
