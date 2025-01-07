@@ -11,8 +11,8 @@ const Form = () => {
 
   return (
     <>
-      <ScrollArea className="h-48 relative overflow-y p-4">
-        <div className="w-full space-y-3 mb-5 min-h-full">
+      <ScrollArea className="h-48 relative overflow-y-hidden p-4">
+        <div className="w-full space-y-3 min-h-full">
           <CategoriesSelectors lastChildRef={lastChildRef} />
           <AttributesSelectors lastChildRef={lastChildRef} />
           <div className="h-[15px]" ref={lastChildRef}></div>
